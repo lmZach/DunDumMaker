@@ -927,7 +927,7 @@
                     <div style="margin: 15px 0; padding: 15px; background: #fff3cd; border-radius: 8px;">
                         <strong>Creeps</strong> - Monsters that compete
                         <ul>
-                            <li>Chaos Master plays before flipping Dungeon</li>
+                            <li>Chaos Master plays AFTER Party selects cards</li>
                             <li>Monster rolls against the Party</li>
                             <li>If monster wins: no Glory + funny penalty</li>
                             <li><em>Example: Karen the Karen Dragon (d8+2, demands manager)</em></li>
@@ -965,21 +965,33 @@
                         <table class="card-table" style="width: 100%; margin: 10px 0;">
                             <tr><th>Type</th><th>How to Win</th></tr>
                             <tr><td>🗡️ Combat</td><td>Highest roll wins 1 Glory</td></tr>
-                            <tr><td>🗣️ Social</td><td>Party votes for winner (give 1 Glory)</td></tr>
-                            <tr><td>🧭 Exploration</td><td>Closest to target number wins 1 Glory</td></tr>
-                            <tr><td>❓ Wild</td><td>Chaos Master decides winner</td></tr>
+                            <tr><td>🗣️ Social</td><td>Party votes (winner gets +2), then highest roll wins 1 Glory</td></tr>
+                            <tr><td>🧭 Exploration</td><td>Closest to target number wins 1 Glory (ties broken by d20)</td></tr>
+                            <tr><td>❓ Wild</td><td>Chaos Master decides winner (creativity, storytelling, whim)</td></tr>
                         </table>
                     </div>
                 </div>
                 
                 <div style="margin-bottom: 30px;">
-                    <h3>🔄 Round Flow</h3>
+                    <h3>🔄 Round Flow (Corrected Order - v3.3)</h3>
                     <ol>
-                        <li><strong>Chaos Master Phase:</strong> Play 1 card (Creep/Curse/Casualty) + flip Dungeon</li>
-                        <li><strong>Party Action:</strong> Each player plays 1 main + 1 optional bonus card (face-down)</li>
-                        <li><strong>Roll Phase:</strong> Everyone rolls (d20 + bonuses). Creeps roll if active.</li>
-                        <li><strong>Resolution:</strong> Dungeon type determines winner & Glory</li>
+                        <li><strong>Step 1 - Dungeon Revealed:</strong> Chaos Master flips Dungeon card face-up (Party sees the challenge)</li>
+                        <li><strong>Step 2 - Party Action:</strong> Each player selects 1 main + 1 optional bonus card, then all reveal simultaneously</li>
+                        <li><strong>Step 3 - Chaos Master Plays:</strong> Play 1 card (Creep/Curse/Casualty) face-up</li>
+                        <li><strong>Step 4 - Roll Phase:</strong> Everyone rolls (d20 + bonuses). <strong>SPECIAL:</strong> Social dungeons vote first! (see below)</li>
+                        <li><strong>Step 5 - Resolution:</strong> Dungeon type determines winner & Glory awarded</li>
                     </ol>
+                    <div style="background: #e3f2fd; padding: 15px; border-radius: 8px; margin-top: 15px; border-left: 4px solid #2196f3;">
+                        <strong>🗳️ VOTING IN SOCIAL DUNGEONS:</strong>
+                        <p style="margin: 10px 0;">Before rolling dice in Social (🗣️) encounters, the Party holds a vote:</p>
+                        <ol style="margin-left: 20px;">
+                            <li>Each Party member votes for ONE other member (can't vote for self)</li>
+                            <li>Tally votes - the member with most votes (minimum 2) gets <strong>+2 to their roll</strong></li>
+                            <li>If tie or no one gets 2+ votes, no bonus awarded</li>
+                            <li>Then proceed with dice rolling as normal</li>
+                        </ol>
+                        <p style="margin: 10px 0; font-style: italic;">💡 This encourages negotiation, alliances, and strategic voting!</p>
+                    </div>
                 </div>
                 
                 <div style="margin-bottom: 30px;">
