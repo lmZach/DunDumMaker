@@ -32,6 +32,8 @@
             color: white;
             padding: 30px;
             text-align: center;
+            position: relative;
+            z-index: 90;
         }
 
         .header h1 {
@@ -48,6 +50,8 @@
             display: flex;
             background: #f8f9fa;
             border-bottom: 2px solid #ddd;
+            position: relative;
+            z-index: 100;
         }
 
         .tab {
@@ -391,6 +395,385 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        /* SIMULATOR STYLES */
+        .simulator-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .game-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .game-stats {
+            display: flex;
+            gap: 30px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .game-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .game-card h3 {
+            margin-top: 0;
+            color: #667eea;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .character-display {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .card-hand {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .hand-card {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .hand-card:hover {
+            border-color: #667eea;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .hand-card.selected {
+            border-color: #667eea;
+            background: #f0f4ff;
+            border-width: 3px;
+        }
+
+        .hand-card.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .card-name {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .card-effect {
+            font-size: 12px;
+            color: #666;
+            font-style: italic;
+        }
+
+        .dungeon-card-display {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .party-display {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .party-member {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 4px solid #28a745;
+        }
+
+        .party-member.you {
+            border-left-color: #667eea;
+            background: #f0f4ff;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .btn-game {
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-game.primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-game.primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-game.secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-game.secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-game:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .game-log {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .game-log-entry {
+            margin: 5px 0;
+            padding: 5px;
+            border-left: 3px solid #667eea;
+            padding-left: 10px;
+        }
+
+        .dice-roll-display {
+            text-align: center;
+            font-size: 48px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+
+        .role-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            max-width: 700px;
+            margin: 50px auto;
+        }
+
+        .role-card {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 3px solid #e9ecef;
+        }
+
+        .role-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+            border-color: #667eea;
+        }
+
+        .role-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+
+        .role-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .role-description {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* VISUAL TABLE LAYOUT */
+        .game-table {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+        }
+
+        .table-top {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 50px;
+            min-height: 200px;
+        }
+
+        .chaos-master-slot {
+            background: rgba(220, 53, 69, 0.2);
+            border: 3px solid #dc3545;
+            border-radius: 16px;
+            padding: 20px;
+            min-width: 200px;
+            text-align: center;
+            color: white;
+        }
+
+        .dungeon-slot {
+            background: rgba(102, 126, 234, 0.3);
+            border: 3px solid #667eea;
+            border-radius: 16px;
+            padding: 20px;
+            min-width: 300px;
+            text-align: center;
+            color: white;
+            font-size: 18px;
+        }
+
+        .table-bottom {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .player-slot {
+            background: rgba(255, 255, 255, 0.1);
+            border: 3px solid #28a745;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            color: white;
+            min-height: 150px;
+            transition: all 0.3s;
+        }
+
+        .player-slot.you {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.2);
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .player-slot.winner {
+            border-color: #ffc107;
+            background: rgba(255, 193, 7, 0.2);
+            box-shadow: 0 0 30px rgba(255, 193, 7, 0.6);
+            animation: pulse 1s ease-in-out;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .player-name {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .player-class {
+            font-size: 14px;
+            opacity: 0.8;
+            margin-bottom: 10px;
+        }
+
+        .player-cards {
+            font-size: 12px;
+            opacity: 0.7;
+            margin: 10px 0;
+        }
+
+        .player-roll {
+            font-size: 32px;
+            font-weight: bold;
+            margin: 10px 0;
+            color: #ffc107;
+        }
+
+        .chaos-card-display {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .chaos-card-details {
+            font-size: 12px;
+            margin-top: 5px;
+            opacity: 0.8;
+        }
+
+        .dungeon-title {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .dungeon-type {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+
+        .dungeon-rules {
+            font-size: 12px;
+            opacity: 0.7;
+        }
+
+        .phase-indicator {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 10px 20px;
+            margin: 20px 0;
+            text-align: center;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .compact-log {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 10px;
+            margin: 10px 0;
+            color: #ecf0f1;
+            font-size: 14px;
+            max-height: 100px;
+            overflow-y: auto;
+        }
     </style>
 </head>
 <body>
@@ -405,6 +788,7 @@
             <div class="tab active" onclick="switchTab('create')">✏️ Create Card</div>
             <div class="tab" onclick="switchTab('view')">📋 View Cards</div>
             <div class="tab" onclick="switchTab('reference')">📖 Reference</div>
+            <div class="tab" onclick="switchTab('simulator')">🎮 Simulator</div>
             <div class="tab" onclick="switchTab('settings')">⚙️ Settings</div>
         </div>
 
@@ -617,6 +1001,127 @@
                         <li>Have fun with Rest Events</li>
                         <li>Remember: It's called <strong>Dumbassery</strong> for a reason 😄</li>
                     </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB: SIMULATOR -->
+        <div id="simulatorTab" class="tab-content">
+            <div class="simulator-container">
+                <!-- ROLE SELECTION SCREEN -->
+                <div id="roleSelection" class="role-selector">
+                    <div class="role-card" onclick="startGame('party')">
+                        <div class="role-icon">🎭</div>
+                        <div class="role-title">PARTY MEMBER</div>
+                        <div class="role-description">
+                            Play alongside AI party members.<br>
+                            Use your cards and skills to earn Glory!<br>
+                            <strong>Goal:</strong> Reach the Glory target before 5 Short Rests.
+                        </div>
+                    </div>
+                    <div class="role-card" onclick="startGame('chaos')" style="opacity: 0.5; cursor: not-allowed;">
+                        <div class="role-icon">👹</div>
+                        <div class="role-title">CHAOS MASTER</div>
+                        <div class="role-description">
+                            Control monsters and chaos cards.<br>
+                            Try to stop the Party from winning!<br>
+                            <strong>Coming in Phase 2...</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GAME SCREEN -->
+                <div id="gameScreen" style="display: none;">
+                    <!-- GAME HEADER -->
+                    <div class="game-header">
+                        <div class="game-stats">
+                            <div>🏆 Glory: <span id="gloryCount">0</span>/<span id="gloryTarget">10</span></div>
+                            <div>🛏️ Short Rests: <span id="restCount">0</span>/5</div>
+                            <div>🔄 Round: <span id="roundCount">1</span></div>
+                        </div>
+                        <button class="btn-game secondary" onclick="resetGame()">🚪 Exit Game</button>
+                    </div>
+
+                    <!-- PHASE INDICATOR -->
+                    <div class="phase-indicator" id="phaseIndicator">
+                        🎯 Waiting to start...
+                    </div>
+
+                    <!-- VISUAL GAME TABLE -->
+                    <div class="game-table">
+                        <!-- TOP: CHAOS MASTER + DUNGEON -->
+                        <div class="table-top">
+                            <!-- CHAOS MASTER SLOT -->
+                            <div class="chaos-master-slot" id="chaosMasterSlot">
+                                <div style="font-size: 40px; margin-bottom: 10px;">👹</div>
+                                <div style="font-weight: bold; margin-bottom: 10px;">CHAOS MASTER</div>
+                                <div id="chaosCardDisplay" class="chaos-card-display">
+                                    Waiting...
+                                </div>
+                            </div>
+
+                            <!-- DUNGEON SLOT -->
+                            <div class="dungeon-slot" id="dungeonSlot">
+                                <div style="font-size: 40px; margin-bottom: 10px;">🏰</div>
+                                <div id="dungeonCardDisplay">
+                                    <div class="dungeon-title">-</div>
+                                    <div class="dungeon-type">Waiting for dungeon...</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- BOTTOM: 3 PARTY MEMBERS -->
+                        <div class="table-bottom">
+                            <!-- PLAYER 1 (YOU) -->
+                            <div class="player-slot you" id="player1Slot">
+                                <div class="player-name">👤 YOU</div>
+                                <div class="player-class" id="player1Class">Loading...</div>
+                                <div class="player-cards" id="player1Cards">No cards selected</div>
+                                <div class="player-roll" id="player1Roll">-</div>
+                            </div>
+
+                            <!-- PLAYER 2 (ALICE) -->
+                            <div class="player-slot" id="player2Slot">
+                                <div class="player-name">🧑 ALICE</div>
+                                <div class="player-class" id="player2Class">Loading...</div>
+                                <div class="player-cards" id="player2Cards">AI Ready</div>
+                                <div class="player-roll" id="player2Roll">-</div>
+                            </div>
+
+                            <!-- PLAYER 3 (BOB) -->
+                            <div class="player-slot" id="player3Slot">
+                                <div class="player-name">🧑 BOB</div>
+                                <div class="player-class" id="player3Class">Loading...</div>
+                                <div class="player-cards" id="player3Cards">AI Ready</div>
+                                <div class="player-roll" id="player3Roll">-</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- YOUR HAND -->
+                    <div class="game-card" id="playerHandSection">
+                        <h3>🃏 Your Hand</h3>
+                        <div id="playerHand" class="card-hand">
+                        </div>
+                        <div style="margin-top: 15px; color: #666; font-style: italic;">
+                            Select 1 main card. Optionally select 1 bonus card.
+                        </div>
+                    </div>
+
+                    <!-- ACTION BUTTONS -->
+                    <div class="action-buttons">
+                        <button id="readyButton" class="btn-game primary" onclick="confirmSelection()" disabled>
+                            ✅ Lock In Selection
+                        </button>
+                        <button id="nextRoundButton" class="btn-game secondary" onclick="nextRound()" style="display: none;">
+                            ➡️ Next Round
+                        </button>
+                    </div>
+
+                    <!-- COMPACT GAME LOG -->
+                    <div class="compact-log" id="compactLog">
+                        🎮 Game started!
+                    </div>
                 </div>
             </div>
         </div>
@@ -1069,8 +1574,11 @@
             } else if (tabName === 'reference') {
                 document.querySelector('.tab:nth-child(3)').classList.add('active');
                 document.getElementById('referenceTab').classList.add('active');
-            } else if (tabName === 'settings') {
+            } else if (tabName === 'simulator') {
                 document.querySelector('.tab:nth-child(4)').classList.add('active');
+                document.getElementById('simulatorTab').classList.add('active');
+            } else if (tabName === 'settings') {
+                document.querySelector('.tab:nth-child(5)').classList.add('active');
                 document.getElementById('settingsTab').classList.add('active');
             }
         }
@@ -1376,6 +1884,361 @@
         function updateCSVOutput(cardData) {
             // Fallback CSV generation (for when not connected to sheets)
             alert('CSV generation - feature from v1');
+        }
+
+        // ===============================================
+        // GAME SIMULATOR LOGIC
+        // ===============================================
+
+        let gameState = {
+            role: null,
+            glory: 0,
+            gloryTarget: 10,
+            round: 1,
+            restCount: 0,
+            playerCharacter: null,
+            playerHand: [],
+            selectedMain: null,
+            selectedBonus: null,
+            party: [],
+            currentDungeon: null,
+            currentChaosCard: null,
+            gameLog: []
+        };
+
+        // Sample card databases (will be replaced with actual sheet data later)
+        const sampleClasses = [
+            { name: 'Monk - Way of the Couch Potato', die: 'd6', ability: '+2 when sitting or lying down' },
+            { name: 'Bard - Scream-Singer', die: 'd8', ability: '+2 to Social rolls' },
+            { name: 'Fighter - Rage Quitter', die: 'd10', ability: '+1 to Combat rolls' }
+        ];
+
+        const sampleStuffThangs = [
+            { name: 'Pool Noodle of +1 Rage', effect: '+3 if you yell KABOOM!' },
+            { name: 'Fake Mustache', effect: '+3 to Social, falls off on nat 1' },
+            { name: 'Tiny Distraction', effect: 'Force one player to roll with disadvantage' },
+            { name: 'Shield of Polite Disagreement', effect: '+2 to any roll' },
+            { name: 'Motivational Speech', effect: '+1 to all party members this round' }
+        ];
+
+        const sampleDungeons = [
+            { name: 'Dance Battle Ambush', type: 'Combat', win: 'Highest roll wins 1 Glory' },
+            { name: 'The Troll Toll Booth', type: 'Social', win: 'Party votes for winner' },
+            { name: 'The Door of Too Many Locks', type: 'Exploration', win: 'Closest to 15 wins' },
+            { name: 'Accent Swap Catastrophe', type: 'Wild', win: 'Chaos Master decides' }
+        ];
+
+        const sampleCreeps = [
+            { name: 'Karen the Karen Dragon', die: 'd8', bonus: 2, effect: 'Demands to speak to manager' },
+            { name: 'Steve the Oversharing Skeleton', die: 'd6', bonus: 1, effect: 'Talks too much' },
+            { name: 'Gary the Anxious Ghost', die: 'd10', bonus: 0, effect: 'Nervous energy' }
+        ];
+
+        // NEW GAME LOGIC - Step by step with visual table
+        
+        function startGame(role) {
+            if (role === 'chaos') {
+                alert('👹 Chaos Master mode coming in Phase 2!');
+                return;
+            }
+        
+            gameState.role = role;
+            gameState.glory = 0;
+            gameState.round = 1;
+            gameState.restCount = 0;
+            gameState.phase = 'dungeon'; // NEW: Track game phase
+        
+            // Setup player character
+            gameState.playerCharacter = sampleClasses[Math.floor(Math.random() * sampleClasses.length)];
+            
+            // Draw starting hand
+            gameState.playerHand = drawCards(5);
+            
+            // Setup AI party
+            gameState.party = [
+                { name: 'Alice', character: sampleClasses[1], isPlayer: false },
+                { name: 'Bob', character: sampleClasses[2], isPlayer: false }
+            ];
+        
+            // Show game screen
+            document.getElementById('roleSelection').style.display = 'none';
+            document.getElementById('gameScreen').style.display = 'block';
+        
+            updateGameDisplay();
+            
+            // START: Flip dungeon first!
+            flipDungeonCard();
+        }
+        
+        function flipDungeonCard() {
+            setPhase('🏰 Dungeon card revealed! Select your cards.');
+            
+            // Flip dungeon card
+            const dungeon = sampleDungeons[Math.floor(Math.random() * sampleDungeons.length)];
+            gameState.currentDungeon = dungeon;
+            
+            document.getElementById('dungeonCardDisplay').innerHTML = `
+                <div class="dungeon-title">${dungeon.name}</div>
+                <div class="dungeon-type">⚔️ Type: ${dungeon.type}</div>
+                <div class="dungeon-rules">${dungeon.win}</div>
+            `;
+            
+            log(`🏰 Dungeon revealed: ${dungeon.name} (${dungeon.type})`);
+            
+            // Reset player selections
+            gameState.selectedMain = null;
+            gameState.selectedBonus = null;
+            renderPlayerHand();
+            
+            // Enable card selection
+            document.getElementById('readyButton').disabled = true;
+        }
+        
+        function confirmSelection() {
+            if (gameState.selectedMain === null) return;
+            
+            setPhase('⏳ Locking in your selection...');
+            
+            // Show selected cards on table
+            let cardsText = gameState.playerHand[gameState.selectedMain].name;
+            if (gameState.selectedBonus !== null) {
+                cardsText += ' + ' + gameState.playerHand[gameState.selectedBonus].name;
+            }
+            document.getElementById('player1Cards').textContent = cardsText;
+            
+            log(`✅ You played: ${cardsText}`);
+            
+            // Disable further selection
+            document.getElementById('readyButton').style.display = 'none';
+            
+            // Now Chaos Master plays
+            setTimeout(() => chaosMasterPlays(), 1000);
+        }
+        
+        function chaosMasterPlays() {
+            setPhase('👹 Chaos Master is playing a card...');
+            
+            const chaosCard = sampleCreeps[Math.floor(Math.random() * sampleCreeps.length)];
+            gameState.currentChaosCard = chaosCard;
+            
+            document.getElementById('chaosCardDisplay').innerHTML = `
+                <strong>${chaosCard.name}</strong><br>
+                <div class="chaos-card-details">${chaosCard.die}+${chaosCard.bonus} | ${chaosCard.effect}</div>
+            `;
+            
+            log(`👹 Chaos Master plays: ${chaosCard.name}`);
+            
+            // Now roll dice
+            setTimeout(() => rollAllDice(), 1500);
+        }
+        
+        function rollAllDice() {
+            setPhase('🎲 Rolling dice...');
+            
+            // Roll for player
+            const playerRoll = rollD20();
+            const playerBonus = 3;
+            const playerTotal = playerRoll + playerBonus;
+            document.getElementById('player1Roll').textContent = `${playerRoll}+${playerBonus} = ${playerTotal}`;
+            log(`👤 YOU rolled: ${playerTotal}`);
+            
+            setTimeout(() => {
+                // Roll for Alice
+                const aliceRoll = rollD20() + 2;
+                document.getElementById('player2Roll').textContent = aliceRoll;
+                log(`🧑 Alice rolled: ${aliceRoll}`);
+                
+                setTimeout(() => {
+                    // Roll for Bob
+                    const bobRoll = rollD20() + 1;
+                    document.getElementById('player3Roll').textContent = bobRoll;
+                    log(`🧑 Bob rolled: ${bobRoll}`);
+                    
+                    setTimeout(() => {
+                        // Determine winner
+                        resolveRound(playerTotal, aliceRoll, bobRoll);
+                    }, 800);
+                }, 800);
+            }, 800);
+        }
+        
+        function resolveRound(playerTotal, aliceTotal, bobTotal) {
+            setPhase('🏆 Determining winner...');
+            
+            const chaosCard = gameState.currentChaosCard;
+            const creepRoll = rollDie(parseInt(chaosCard.die.substring(1))) + chaosCard.bonus;
+            
+            log(`👹 ${chaosCard.name} rolled: ${creepRoll}`);
+            
+            const rolls = [
+                { name: 'YOU', total: playerTotal, slot: 'player1Slot' },
+                { name: 'Alice', total: aliceTotal, slot: 'player2Slot' },
+                { name: 'Bob', total: bobTotal, slot: 'player3Slot' },
+                { name: chaosCard.name, total: creepRoll, isCreep: true, slot: 'chaosMasterSlot' }
+            ];
+            
+            rolls.sort((a, b) => b.total - a.total);
+            const winner = rolls[0];
+            
+            // Highlight winner
+            document.getElementById(winner.slot).classList.add('winner');
+            
+            setTimeout(() => {
+                if (winner.isCreep) {
+                    setPhase(`👹 ${winner.name} wins! No Glory this round.`);
+                    log(`👹 ${winner.name} wins with ${winner.total}! No Glory awarded.`);
+                } else {
+                    gameState.glory += 1;
+                    setPhase(`🎉 ${winner.name} wins! +1 Glory!`);
+                    log(`⭐ ${winner.name} wins with ${winner.total}! +1 Glory!`);
+                    document.getElementById('gloryCount').textContent = gameState.glory;
+                }
+                
+                // Check win condition
+                if (gameState.glory >= gameState.gloryTarget) {
+                    setTimeout(() => {
+                        setPhase('🎉 PARTY WINS! You reached the Glory target!');
+                        alert('🎉 VICTORY! The Party wins!');
+                        resetGame();
+                    }, 2000);
+                    return;
+                }
+                
+                // Show next round button
+                setTimeout(() => {
+                    document.getElementById('nextRoundButton').style.display = 'inline-block';
+                }, 2000);
+            }, 1500);
+        }
+        
+        function nextRound() {
+            // Clear winner highlights
+            document.querySelectorAll('.player-slot, .chaos-master-slot').forEach(el => {
+                el.classList.remove('winner');
+            });
+            
+            // Clear rolls
+            document.getElementById('player1Roll').textContent = '-';
+            document.getElementById('player2Roll').textContent = '-';
+            document.getElementById('player3Roll').textContent = '-';
+            document.getElementById('player1Cards').textContent = 'No cards selected';
+            
+            // Clear chaos card
+            document.getElementById('chaosCardDisplay').innerHTML = 'Waiting...';
+            
+            gameState.round++;
+            document.getElementById('roundCount').textContent = gameState.round;
+            gameState.selectedMain = null;
+            gameState.selectedBonus = null;
+            
+            // Discard used cards and draw new ones
+            gameState.playerHand = drawCards(5);
+            
+            // Check for Short Rest
+            if (gameState.round % 2 === 1 && gameState.round > 1) {
+                gameState.restCount++;
+                document.getElementById('restCount').textContent = gameState.restCount;
+                setPhase(`🛏️ SHORT REST! Draw back to 5 cards.`);
+                log(`🛏️ Short Rest #${gameState.restCount}`);
+                
+                if (gameState.restCount >= 5) {
+                    setTimeout(() => {
+                        setPhase('👹 CHAOS MASTER WINS! 5 Short Rests reached.');
+                        alert('👹 The Chaos Master wins after 5 Short Rests!');
+                        resetGame();
+                    }, 2000);
+                    return;
+                }
+            }
+            
+            // Hide next button, show ready button
+            document.getElementById('nextRoundButton').style.display = 'none';
+            document.getElementById('readyButton').style.display = 'inline-block';
+            document.getElementById('readyButton').disabled = true;
+            
+            log(`🔄 ========== ROUND ${gameState.round} ==========`);
+            
+            // Start next round
+            flipDungeonCard();
+        }
+        
+        function updateGameDisplay() {
+            // Update header stats
+            document.getElementById('gloryCount').textContent = gameState.glory;
+            document.getElementById('gloryTarget').textContent = gameState.gloryTarget;
+            document.getElementById('restCount').textContent = gameState.restCount;
+            document.getElementById('roundCount').textContent = gameState.round;
+        
+            // Update player character displays
+            document.getElementById('player1Class').textContent = gameState.playerCharacter.name;
+            document.getElementById('player2Class').textContent = gameState.party[0].character.name;
+            document.getElementById('player3Class').textContent = gameState.party[1].character.name;
+        
+            // Update player hand
+            renderPlayerHand();
+        }
+        
+        function renderPlayerHand() {
+            const handHTML = gameState.playerHand.map((card, index) => `
+                <div class="hand-card ${gameState.selectedMain === index ? 'selected' : ''} ${gameState.selectedBonus === index ? 'selected' : ''}" 
+                     onclick="selectCard(${index})">
+                    <div class="card-name">${card.name}</div>
+                    <div class="card-effect">${card.effect}</div>
+                </div>
+            `).join('');
+        
+            document.getElementById('playerHand').innerHTML = handHTML;
+        
+            // Enable ready button if main card selected
+            document.getElementById('readyButton').disabled = gameState.selectedMain === null;
+        }
+        
+        function selectCard(index) {
+            if (gameState.selectedMain === null) {
+                gameState.selectedMain = index;
+                log(`🃏 Selected ${gameState.playerHand[index].name} as main.`);
+            } else if (gameState.selectedMain === index) {
+                gameState.selectedMain = null;
+                gameState.selectedBonus = null;
+                log('🚫 Deselected cards.');
+            } else if (gameState.selectedBonus === null) {
+                gameState.selectedBonus = index;
+                log(`🃏 Selected ${gameState.playerHand[index].name} as bonus.`);
+            } else if (gameState.selectedBonus === index) {
+                gameState.selectedBonus = null;
+                log(`🚫 Deselected bonus.`);
+            }
+        
+            renderPlayerHand();
+        }
+        
+        function setPhase(text) {
+            document.getElementById('phaseIndicator').textContent = text;
+        }
+        
+        function log(message) {
+            const logDiv = document.getElementById('compactLog');
+            logDiv.textContent = message;
+        }
+        
+        function resetGame() {
+            document.getElementById('roleSelection').style.display = 'grid';
+            document.getElementById('gameScreen').style.display = 'none';
+            gameState = {
+                role: null,
+                glory: 0,
+                gloryTarget: 10,
+                round: 1,
+                restCount: 0,
+                phase: null,
+                playerCharacter: null,
+                playerHand: [],
+                selectedMain: null,
+                selectedBonus: null,
+                party: [],
+                currentDungeon: null,
+                currentChaosCard: null
+            };
         }
     </script>
 </body>
