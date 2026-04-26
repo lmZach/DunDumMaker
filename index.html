@@ -1903,6 +1903,8 @@
             party: [],
             currentDungeon: null,
             currentChaosCard: null,
+            voteWinner: null,
+            voteBonus: 0,
             gameLog: []
         };
 
@@ -1935,6 +1937,23 @@
         ];
 
         // NEW GAME LOGIC - Step by step with visual table
+        
+        // Helper functions
+        function drawCards(count) {
+            const cards = [];
+            for (let i = 0; i < count; i++) {
+                cards.push({...sampleStuffThangs[Math.floor(Math.random() * sampleStuffThangs.length)]});
+            }
+            return cards;
+        }
+        
+        function rollD20() {
+            return Math.floor(Math.random() * 20) + 1;
+        }
+        
+        function rollDie(sides) {
+            return Math.floor(Math.random() * sides) + 1;
+        }
         
         function startGame(role) {
             if (role === 'chaos') {
@@ -2028,35 +2047,120 @@
             
             log(`👹 Chaos Master plays: ${chaosCard.name}`);
             
+            // Check if Social dungeon - if so, vote first
+            if (gameState.currentDungeon.type === 'Social') {
+                setTimeout(() => startVoting(), 1500);
+            } else {
+                // Otherwise roll dice directly
+                setTimeout(() => rollAllDice(), 1500);
+            }
+        }
+        
+        function startVoting() {
+            setPhase('🗳️ Social Dungeon! Vote for who should get +2 bonus.');
+            
+            // Show voting UI
+            const voteHTML = `
+                <div style="background: rgba(255,255,255,0.9); padding: 20px; border-radius: 12px; margin: 20px 0; text-align: center;">
+                    <h3 style="color: #333; margin-bottom: 15px;">🗳️ Cast Your Vote</h3>
+                    <p style="color: #666; margin-bottom: 15px;">Vote for the party member who should get +2 to their roll!</p>
+                    <div style="display: flex; gap: 15px; justify-content: center;">
+                        <button class="btn-game primary" onclick="castVote('YOU')" style="padding: 15px 25px;">Vote for YOU</button>
+                        <button class="btn-game primary" onclick="castVote('Alice')" style="padding: 15px 25px;">Vote for Alice</button>
+                        <button class="btn-game primary" onclick="castVote('Bob')" style="padding: 15px 25px;">Vote for Bob</button>
+                    </div>
+                </div>
+            `;
+            
+            // Insert voting UI after player hand
+            const handSection = document.getElementById('playerHandSection');
+            handSection.insertAdjacentHTML('afterend', '<div id="votingSection">' + voteHTML + '</div>');
+        }
+        
+        function castVote(votedFor) {
+            log(`🗳️ You voted for ${votedFor}`);
+            
+            // AI votes randomly (could be smarter later)
+            const aiVote1 = ['YOU', 'Alice', 'Bob'][Math.floor(Math.random() * 3)];
+            const aiVote2 = ['YOU', 'Alice', 'Bob'][Math.floor(Math.random() * 3)];
+            
+            log(`🗳️ Alice voted for ${aiVote1}`);
+            log(`🗳️ Bob voted for ${aiVote2}`);
+            
+            // Count votes
+            const votes = {};
+            votes[votedFor] = (votes[votedFor] || 0) + 1;
+            votes[aiVote1] = (votes[aiVote1] || 0) + 1;
+            votes[aiVote2] = (votes[aiVote2] || 0) + 1;
+            
+            // Find highest votes (ties go to first alphabetically for now)
+            let highestVotes = 0;
+            let winner = null;
+            for (const [player, count] of Object.entries(votes)) {
+                if (count > highestVotes) {
+                    highestVotes = count;
+                    winner = player;
+                }
+            }
+            
+            gameState.voteWinner = winner;
+            gameState.voteBonus = highestVotes >= 2 ? 2 : 0; // Only +2 if they got 2+ votes
+            
+            setPhase(`🗳️ Votes tallied! ${winner} gets +${gameState.voteBonus} bonus!`);
+            log(`🏆 ${winner} wins the vote with ${highestVotes} votes! Gets +${gameState.voteBonus}`);
+            
+            // Remove voting UI
+            document.getElementById('votingSection').remove();
+            
             // Now roll dice
-            setTimeout(() => rollAllDice(), 1500);
+            setTimeout(() => rollAllDice(), 2000);
         }
         
         function rollAllDice() {
             setPhase('🎲 Rolling dice...');
             
+            // Apply vote bonus for Social dungeons
+            const voteBonus = gameState.voteBonus || 0;
+            
             // Roll for player
             const playerRoll = rollD20();
-            const playerBonus = 3;
+            let playerBonus = 3;
+            if (gameState.voteWinner === 'YOU') {
+                playerBonus += voteBonus;
+            }
             const playerTotal = playerRoll + playerBonus;
-            document.getElementById('player1Roll').textContent = `${playerRoll}+${playerBonus} = ${playerTotal}`;
-            log(`👤 YOU rolled: ${playerTotal}`);
+            document.getElementById('player1Roll').textContent = voteBonus && gameState.voteWinner === 'YOU' ? 
+                `${playerRoll}+${playerBonus} = ${playerTotal} 🗳️` : 
+                `${playerRoll}+${playerBonus} = ${playerTotal}`;
+            log(`👤 YOU rolled: ${playerTotal}${voteBonus && gameState.voteWinner === 'YOU' ? ' (with vote bonus!)' : ''}`);
             
             setTimeout(() => {
                 // Roll for Alice
-                const aliceRoll = rollD20() + 2;
-                document.getElementById('player2Roll').textContent = aliceRoll;
-                log(`🧑 Alice rolled: ${aliceRoll}`);
+                const aliceRoll = rollD20();
+                let aliceBonus = 2;
+                if (gameState.voteWinner === 'Alice') {
+                    aliceBonus += voteBonus;
+                }
+                const aliceTotal = aliceRoll + aliceBonus;
+                document.getElementById('player2Roll').textContent = voteBonus && gameState.voteWinner === 'Alice' ?
+                    `${aliceTotal} 🗳️` : aliceTotal;
+                log(`🧑 Alice rolled: ${aliceTotal}${voteBonus && gameState.voteWinner === 'Alice' ? ' (with vote bonus!)' : ''}`);
                 
                 setTimeout(() => {
                     // Roll for Bob
-                    const bobRoll = rollD20() + 1;
-                    document.getElementById('player3Roll').textContent = bobRoll;
-                    log(`🧑 Bob rolled: ${bobRoll}`);
+                    const bobRoll = rollD20();
+                    let bobBonus = 1;
+                    if (gameState.voteWinner === 'Bob') {
+                        bobBonus += voteBonus;
+                    }
+                    const bobTotal = bobRoll + bobBonus;
+                    document.getElementById('player3Roll').textContent = voteBonus && gameState.voteWinner === 'Bob' ?
+                        `${bobTotal} 🗳️` : bobTotal;
+                    log(`🧑 Bob rolled: ${bobTotal}${voteBonus && gameState.voteWinner === 'Bob' ? ' (with vote bonus!)' : ''}`);
                     
                     setTimeout(() => {
                         // Determine winner
-                        resolveRound(playerTotal, aliceRoll, bobRoll);
+                        resolveRound(playerTotal, aliceTotal, bobTotal);
                     }, 800);
                 }, 800);
             }, 800);
@@ -2130,6 +2234,8 @@
             document.getElementById('roundCount').textContent = gameState.round;
             gameState.selectedMain = null;
             gameState.selectedBonus = null;
+            gameState.voteWinner = null;
+            gameState.voteBonus = 0;
             
             // Discard used cards and draw new ones
             gameState.playerHand = drawCards(5);
@@ -2237,7 +2343,9 @@
                 selectedBonus: null,
                 party: [],
                 currentDungeon: null,
-                currentChaosCard: null
+                currentChaosCard: null,
+                voteWinner: null,
+                voteBonus: 0
             };
         }
     </script>
