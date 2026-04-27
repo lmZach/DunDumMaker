@@ -3613,47 +3613,13 @@ setTimeout(displayConfiguredSpreadsheetId, 1000);
         }
 
         async function loadCards() {
-            if (!sheetsConnected) {
-                alert('Please connect to Google Sheets first');
+            // Redirect to OAuth version
+            if (!accessToken || !sheetsConnected) {
+                alert('⚠️ Please sign in with Google first!\nGo to Settings tab → Sign in with Google');
                 return;
             }
-
-            const filterType = document.getElementById('filterCardType').value;
-            const container = document.getElementById('cardsTableContainer');
             
-            container.innerHTML = '<div class="loading">🔄 Loading cards...</div>';
-
-            try {
-                // Determine which sheet to load
-                const sheetNames = {
-                    'classes': 'Classes',
-                    'subclasses': 'Subclasses',
-                    'stuffthangs': 'StuffThangs',
-                    'dungeons': 'Dungeons',
-                    'creeps': 'Creeps',
-                    'curses': 'Curses',
-                    'casualties': 'Casualties'
-                };
-
-                const sheetName = filterType ? sheetNames[filterType] : 'Classes';
-                
-                const response = await fetch(
-                    `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${sheetName}?key=${apiKey}`
-                );
-                
-                const data = await response.json();
-                
-                if (data.error) {
-                    throw new Error(data.error.message);
-                }
-
-                displayCards(data.values, sheetName);
-                
-            } catch (error) {
-                container.innerHTML = `<div style="color: #e53e3e; padding: 20px;">
-                    ❌ Error loading cards: ${error.message}
-                </div>`;
-            }
+            await loadCardsFromSheet();
         }
 
         let currentView = 'grid'; // or 'table'
@@ -5323,8 +5289,8 @@ function checkFirstVisit() {
 
 // TODO: Replace with YOUR values from Google Cloud Console
 const OAUTH_CONFIG = {
-    clientId: '627962701479-hjv4bjn895l9t6idha9m3meb93ut8u2r.apps.googleusercontent.com', // ← Paste your Client ID here
-    spreadsheetId: '122StZk5lSeWkQLP04ZmziYmiPtV1gibq0DFwcjwr2F8', // ← Your Google Sheet ID
+    clientId: 'YOUR_CLIENT_ID_HERE.apps.googleusercontent.com', // ← Paste your Client ID here
+    spreadsheetId: 'YOUR_SPREADSHEET_ID_HERE', // ← Your Google Sheet ID
     scopes: 'https://www.googleapis.com/auth/spreadsheets',
     discoveryDocs: ['https://sheets.googleapis.com/$discovery/rest?version=v4']
 };
@@ -5665,7 +5631,7 @@ async function loadCardsFromSheet() {
  * Display loaded cards in the view tab
  */
 function displayCards(cards) {
-    const viewContainer = document.getElementById('cardViewContainer');
+    const viewContainer = document.getElementById('cardsTableContainer');
     if (!viewContainer) return;
 
     if (cards.length === 0) {
