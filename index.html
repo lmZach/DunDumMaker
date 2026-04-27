@@ -2639,7 +2639,58 @@
                     <button class="btn-primary" onclick="loadCards()">🔄 Refresh</button>
                 </div>
 
+                <!-- View Toggle Buttons -->
+                <div class="view-toggle">
+                    <button class="view-toggle-btn active" onclick="toggleView('grid')">
+                        🎴 Card View
+                    </button>
+                    <button class="view-toggle-btn" onclick="toggleView('list')">
+                        📋 List View
+                    </button>
+                </div>
+
+                <!-- Grid View Container -->
                 <div id="cardsTableContainer"></div>
+
+                <!-- List View Container -->
+                <div id="cardListView" class="cards-list-view"></div>
+
+                <!-- Edit Modal -->
+                <div id="editCardModal" class="edit-modal">
+                    <div class="edit-modal-content">
+                        <h2>✏️ Edit Card</h2>
+                        
+                        <div class="edit-form-group">
+                            <label for="editCardName">Card Name *</label>
+                            <input type="text" id="editCardName" required>
+                        </div>
+                        
+                        <div class="edit-form-group">
+                            <label for="editCardType">Card Type (Read-Only)</label>
+                            <input type="text" id="editCardType" disabled style="opacity: 0.6;">
+                        </div>
+                        
+                        <div class="edit-form-group">
+                            <label for="editCardEffect">Effect / Description</label>
+                            <textarea id="editCardEffect"></textarea>
+                        </div>
+                        
+                        <div class="edit-form-group">
+                            <label for="editCardDie">Die (e.g., d6, d10)</label>
+                            <input type="text" id="editCardDie" placeholder="d6">
+                        </div>
+                        
+                        <div class="edit-form-group">
+                            <label for="editCardCreator">Creator / Nickname</label>
+                            <input type="text" id="editCardCreator">
+                        </div>
+                        
+                        <div class="edit-modal-actions">
+                            <button class="btn-cancel" onclick="closeEditModal()">❌ Cancel</button>
+                            <button class="btn-save" onclick="saveCardEdit()">💾 Save Changes</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -3491,6 +3542,227 @@ setTimeout(displayConfiguredSpreadsheetId, 1000);
     border-top: 1px solid rgba(255, 255, 255, 0.2);
     font-weight: 500;
 }
+
+/* ============================================ */
+/* VIEW CARDS - LIST VIEW & EDITING STYLES */
+/* ============================================ */
+
+/* View Toggle Buttons */
+.view-toggle {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.view-toggle-btn {
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.view-toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(102, 126, 234, 0.5);
+}
+
+.view-toggle-btn.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-color: #667eea;
+}
+
+/* List View Styles */
+.cards-list-view {
+    display: none;
+}
+
+.cards-list-view.active {
+    display: block;
+}
+
+.card-grid.active {
+    display: grid;
+}
+
+.card-list-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.card-list-table thead {
+    background: rgba(102, 126, 234, 0.2);
+}
+
+.card-list-table th {
+    padding: 12px;
+    text-align: left;
+    color: #ffffff;
+    font-weight: bold;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.card-list-table td {
+    padding: 12px;
+    color: #f0f0f0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.card-list-table tr:hover {
+    background: rgba(102, 126, 234, 0.1);
+}
+
+.card-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-edit, .btn-delete {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85em;
+    transition: all 0.2s ease;
+}
+
+.btn-edit {
+    background: #3498db;
+    color: white;
+}
+
+.btn-edit:hover {
+    background: #2980b9;
+}
+
+.btn-delete {
+    background: #e74c3c;
+    color: white;
+}
+
+.btn-delete:hover {
+    background: #c0392b;
+}
+
+/* Edit Modal */
+.edit-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 10000;
+    justify-content: center;
+    align-items: center;
+}
+
+.edit-modal.active {
+    display: flex;
+}
+
+.edit-modal-content {
+    background: #2c3e50;
+    padding: 30px;
+    border-radius: 12px;
+    max-width: 600px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.edit-modal-content h2 {
+    margin-top: 0;
+    color: #ffffff;
+}
+
+.edit-form-group {
+    margin-bottom: 15px;
+}
+
+.edit-form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #ecf0f1;
+    font-weight: 500;
+}
+
+.edit-form-group input,
+.edit-form-group textarea,
+.edit-form-group select {
+    width: 100%;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    color: #ffffff;
+    font-size: 1em;
+}
+
+.edit-form-group textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.edit-modal-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.btn-save, .btn-cancel {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.btn-save {
+    background: #27ae60;
+    color: white;
+}
+
+.btn-save:hover {
+    background: #229954;
+}
+
+.btn-cancel {
+    background: #95a5a6;
+    color: white;
+}
+
+.btn-cancel:hover {
+    background: #7f8c8d;
+}
+
+/* Type Badges */
+.type-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.type-badge.classes { background: #3498db; color: white; }
+.type-badge.subclasses { background: #9b59b6; color: white; }
+.type-badge.stuffthangs { background: #e67e22; color: white; }
+.type-badge.dungeons { background: #e74c3c; color: white; }
+.type-badge.creeps { background: #c0392b; color: white; }
+.type-badge.curses { background: #8e44ad; color: white; }
+.type-badge.casualties { background: #34495e; color: white; }
+
 </style>
 
 
@@ -5633,6 +5905,11 @@ async function loadCardsFromSheet() {
  * Display loaded cards in the view tab
  */
 function displayCards(cards) {
+    // Use enhanced display that supports both views
+    displayCardsEnhanced(cards);
+    return;
+    
+    // OLD CODE (kept for reference but not executed)
     const viewContainer = document.getElementById('cardsTableContainer');
     if (!viewContainer) return;
 
@@ -5666,6 +5943,396 @@ function displayCards(cards) {
 
 // Initialize on page load
 window.addEventListener('load', initializeGoogleAuth);
+
+
+// ============================================
+// VIEW CARDS - LIST VIEW & EDITING FUNCTIONS
+// ============================================
+
+// Global state for cards and current view
+let allCardsData = [];
+let currentViewMode = 'grid'; // 'grid' or 'list'
+let editingCard = null;
+
+/**
+ * Toggle between grid and list view
+ */
+function toggleView(mode) {
+    currentViewMode = mode;
+    
+    // Update button states
+    document.querySelectorAll('.view-toggle-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    
+    if (mode === 'grid') {
+        document.querySelector('.view-toggle-btn[onclick*="grid"]').classList.add('active');
+        document.getElementById('cardGridView').style.display = 'block';
+        document.getElementById('cardListView').style.display = 'none';
+    } else {
+        document.querySelector('.view-toggle-btn[onclick*="list"]').classList.add('active');
+        document.getElementById('cardGridView').style.display = 'none';
+        document.getElementById('cardListView').style.display = 'block';
+    }
+}
+
+/**
+ * Display cards in list view with edit/delete buttons
+ */
+function displayCardsList(cards) {
+    const listContainer = document.getElementById('cardListView');
+    if (!listContainer) return;
+
+    if (cards.length === 0) {
+        listContainer.innerHTML = '<p style="text-align:center; color:#7f8c8d;">No cards found. Create your first card!</p>';
+        return;
+    }
+
+    let html = `
+        <table class="card-list-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Creator</th>
+                    <th>Effect</th>
+                    <th>Die</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+
+    cards.forEach((card, index) => {
+        const cardName = card.class_name || card.thing_name || card.dungeon_name || 
+                         card.creep_name || card.curse_name || card.casualty_name || 'Unnamed Card';
+        const cardType = card.sheet || 'Unknown';
+        const cardEffect = card.card_text || '-';
+        const cardDie = card.card_die || '-';
+        const creator = card.Nickname || 'Anonymous';
+
+        html += `
+            <tr data-card-index="${index}">
+                <td><strong>${cardName}</strong></td>
+                <td><span class="type-badge ${cardType.toLowerCase()}">${cardType}</span></td>
+                <td>${creator}</td>
+                <td style="max-width: 300px;">${cardEffect}</td>
+                <td>${cardDie}</td>
+                <td class="card-actions">
+                    <button class="btn-edit" onclick="openEditModal(${index})">✏️ Edit</button>
+                    <button class="btn-delete" onclick="deleteCard(${index})">🗑️ Delete</button>
+                </td>
+            </tr>
+        `;
+    });
+
+    html += `
+            </tbody>
+        </table>
+    `;
+
+    listContainer.innerHTML = html;
+}
+
+/**
+ * Enhanced display function that handles both views
+ */
+function displayCardsEnhanced(cards) {
+    allCardsData = cards; // Store globally
+
+    // Update grid view (existing)
+    const gridContainer = document.getElementById('cardsTableContainer');
+    if (!gridContainer) return;
+
+    if (cards.length === 0) {
+        gridContainer.innerHTML = '<p style="text-align:center; color:#7f8c8d;">No cards found. Create your first card!</p>';
+        document.getElementById('cardListView').innerHTML = '<p style="text-align:center; color:#7f8c8d;">No cards found. Create your first card!</p>';
+        return;
+    }
+
+    // Grid view HTML
+    let gridHtml = '<div class="card-grid" id="cardGridView">';
+    
+    cards.forEach((card, index) => {
+        const cardName = card.class_name || card.thing_name || card.dungeon_name || 
+                         card.creep_name || card.curse_name || card.casualty_name || 'Unnamed Card';
+        const cardType = card.sheet || 'Unknown';
+        
+        gridHtml += `
+            <div class="view-card">
+                <h4>${cardName}</h4>
+                <p><strong>Type:</strong> ${cardType}</p>
+                <p><strong>Creator:</strong> ${card.Nickname || 'Anonymous'}</p>
+                ${card.card_text ? `<p class="card-effect">${card.card_text}</p>` : ''}
+                ${card.card_die ? `<p><strong>Die:</strong> ${card.card_die}</p>` : ''}
+            </div>
+        `;
+    });
+    
+    gridHtml += '</div>';
+    gridContainer.innerHTML = gridHtml;
+
+    // List view
+    displayCardsList(cards);
+}
+
+/**
+ * Open edit modal with card data
+ */
+function openEditModal(cardIndex) {
+    editingCard = allCardsData[cardIndex];
+    const modal = document.getElementById('editCardModal');
+    
+    // Pre-fill form
+    document.getElementById('editCardName').value = 
+        editingCard.class_name || editingCard.thing_name || editingCard.dungeon_name || 
+        editingCard.creep_name || editingCard.curse_name || editingCard.casualty_name || '';
+    
+    document.getElementById('editCardType').value = editingCard.sheet || '';
+    document.getElementById('editCardEffect').value = editingCard.card_text || '';
+    document.getElementById('editCardDie').value = editingCard.card_die || '';
+    document.getElementById('editCardCreator').value = editingCard.Nickname || '';
+    
+    // Store the original card data for updating
+    modal.setAttribute('data-card-index', cardIndex);
+    modal.setAttribute('data-sheet-name', editingCard.sheet);
+    modal.setAttribute('data-row-index', editingCard._rowIndex || 0);
+    
+    modal.classList.add('active');
+}
+
+/**
+ * Close edit modal
+ */
+function closeEditModal() {
+    document.getElementById('editCardModal').classList.remove('active');
+    editingCard = null;
+}
+
+/**
+ * Save edited card to Google Sheets
+ */
+async function saveCardEdit() {
+    if (!accessToken || !sheetsConnected) {
+        alert('⚠️ Not signed in. Please sign in first.');
+        return;
+    }
+
+    const modal = document.getElementById('editCardModal');
+    const cardIndex = parseInt(modal.getAttribute('data-card-index'));
+    const sheetName = modal.getAttribute('data-sheet-name');
+    
+    // Get edited values
+    const cardName = document.getElementById('editCardName').value;
+    const cardEffect = document.getElementById('editCardEffect').value;
+    const cardDie = document.getElementById('editCardDie').value;
+    const creator = document.getElementById('editCardCreator').value;
+
+    if (!cardName.trim()) {
+        alert('⚠️ Card name is required!');
+        return;
+    }
+
+    try {
+        // Determine which name field to update based on card type
+        const nameField = sheetName === 'Classes' ? 'class_name' :
+                         sheetName === 'Subclasses' ? 'class_name' :
+                         sheetName === 'StuffThangs' ? 'thing_name' :
+                         sheetName === 'Dungeons' ? 'dungeon_name' :
+                         sheetName === 'Creeps' ? 'creep_name' :
+                         sheetName === 'Curses' ? 'curse_name' :
+                         sheetName === 'Casualties' ? 'casualty_name' : 'name';
+
+        // Update the card in memory
+        allCardsData[cardIndex][nameField] = cardName;
+        allCardsData[cardIndex].card_text = cardEffect;
+        allCardsData[cardIndex].card_die = cardDie;
+        allCardsData[cardIndex].Nickname = creator;
+
+        // Find row in sheet (search by original name)
+        const response = await gapi.client.sheets.spreadsheets.values.get({
+            spreadsheetId: OAUTH_CONFIG.spreadsheetId,
+            range: `${sheetName}!A:Z`
+        });
+
+        const rows = response.result.values;
+        if (!rows || rows.length <= 1) {
+            throw new Error('No data found in sheet');
+        }
+
+        const headers = rows[0];
+        const nameColIndex = headers.indexOf(nameField);
+        const textColIndex = headers.indexOf('card_text');
+        const dieColIndex = headers.indexOf('card_die');
+        const creatorColIndex = headers.indexOf('Nickname');
+
+        // Find the row to update (matching original card data)
+        let rowIndex = -1;
+        for (let i = 1; i < rows.length; i++) {
+            if (rows[i][nameColIndex] === editingCard[nameField]) {
+                rowIndex = i + 1; // Sheets are 1-indexed
+                break;
+            }
+        }
+
+        if (rowIndex === -1) {
+            throw new Error('Could not find card in sheet');
+        }
+
+        // Update specific cells
+        const updates = [];
+        
+        if (nameColIndex !== -1) {
+            updates.push({
+                range: `${sheetName}!${getColumnLetter(nameColIndex)}${rowIndex}`,
+                values: [[cardName]]
+            });
+        }
+        
+        if (textColIndex !== -1) {
+            updates.push({
+                range: `${sheetName}!${getColumnLetter(textColIndex)}${rowIndex}`,
+                values: [[cardEffect]]
+            });
+        }
+        
+        if (dieColIndex !== -1 && cardDie) {
+            updates.push({
+                range: `${sheetName}!${getColumnLetter(dieColIndex)}${rowIndex}`,
+                values: [[cardDie]]
+            });
+        }
+        
+        if (creatorColIndex !== -1) {
+            updates.push({
+                range: `${sheetName}!${getColumnLetter(creatorColIndex)}${rowIndex}`,
+                values: [[creator]]
+            });
+        }
+
+        // Batch update
+        await gapi.client.sheets.spreadsheets.values.batchUpdate({
+            spreadsheetId: OAUTH_CONFIG.spreadsheetId,
+            resource: {
+                data: updates,
+                valueInputOption: 'RAW'
+            }
+        });
+
+        alert('✅ Card updated successfully!');
+        closeEditModal();
+        
+        // Refresh display
+        displayCardsEnhanced(allCardsData);
+        
+    } catch (error) {
+        console.error('❌ Error updating card:', error);
+        alert(`❌ Error updating card: ${error.message}`);
+    }
+}
+
+/**
+ * Delete card from Google Sheets
+ */
+async function deleteCard(cardIndex) {
+    if (!confirm('⚠️ Are you sure you want to delete this card? This cannot be undone!')) {
+        return;
+    }
+
+    if (!accessToken || !sheetsConnected) {
+        alert('⚠️ Not signed in. Please sign in first.');
+        return;
+    }
+
+    const card = allCardsData[cardIndex];
+    const sheetName = card.sheet;
+
+    try {
+        // Get sheet data to find row
+        const response = await gapi.client.sheets.spreadsheets.values.get({
+            spreadsheetId: OAUTH_CONFIG.spreadsheetId,
+            range: `${sheetName}!A:Z`
+        });
+
+        const rows = response.result.values;
+        const headers = rows[0];
+        
+        // Determine name field
+        const nameField = sheetName === 'Classes' ? 'class_name' :
+                         sheetName === 'Subclasses' ? 'class_name' :
+                         sheetName === 'StuffThangs' ? 'thing_name' :
+                         sheetName === 'Dungeons' ? 'dungeon_name' :
+                         sheetName === 'Creeps' ? 'creep_name' :
+                         sheetName === 'Curses' ? 'curse_name' :
+                         sheetName === 'Casualties' ? 'casualty_name' : 'name';
+
+        const nameColIndex = headers.indexOf(nameField);
+        const cardName = card[nameField];
+
+        // Find row index
+        let rowIndex = -1;
+        for (let i = 1; i < rows.length; i++) {
+            if (rows[i][nameColIndex] === cardName) {
+                rowIndex = i;
+                break;
+            }
+        }
+
+        if (rowIndex === -1) {
+            throw new Error('Could not find card in sheet');
+        }
+
+        // Get spreadsheet ID for batch request
+        const spreadsheet = await gapi.client.sheets.spreadsheets.get({
+            spreadsheetId: OAUTH_CONFIG.spreadsheetId
+        });
+
+        const sheet = spreadsheet.result.sheets.find(s => s.properties.title === sheetName);
+        if (!sheet) {
+            throw new Error('Sheet not found');
+        }
+
+        // Delete the row
+        await gapi.client.sheets.spreadsheets.batchUpdate({
+            spreadsheetId: OAUTH_CONFIG.spreadsheetId,
+            resource: {
+                requests: [{
+                    deleteDimension: {
+                        range: {
+                            sheetId: sheet.properties.sheetId,
+                            dimension: 'ROWS',
+                            startIndex: rowIndex,
+                            endIndex: rowIndex + 1
+                        }
+                    }
+                }]
+            }
+        });
+
+        alert('✅ Card deleted successfully!');
+        
+        // Remove from local data and refresh
+        allCardsData.splice(cardIndex, 1);
+        displayCardsEnhanced(allCardsData);
+        
+    } catch (error) {
+        console.error('❌ Error deleting card:', error);
+        alert(`❌ Error deleting card: ${error.message}`);
+    }
+}
+
+/**
+ * Helper: Convert column index to letter (A, B, C, etc.)
+ */
+function getColumnLetter(index) {
+    let letter = '';
+    while (index >= 0) {
+        letter = String.fromCharCode((index % 26) + 65) + letter;
+        index = Math.floor(index / 26) - 1;
+    }
+    return letter;
+}
+
 
 // ==================== OAUTH2 CODE END ====================
 
